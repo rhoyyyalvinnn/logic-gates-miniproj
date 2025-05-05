@@ -22,8 +22,7 @@ def predict():
         gate = request.form['gate']
 
         prediction = models[gate].predict(np.array([[bit1, bit2]]))
-        rounded_prediction = round(prediction[0])
-        return render_template('result.html', gate=gate.upper(), prediction=prediction, rounded_prediction=rounded_prediction)
+        return render_template('result.html', gate=gate.upper(), prediction=prediction)
 
 
 if __name__ == '__main__':

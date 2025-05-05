@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Result</title>
-    <link rel="stylesheet" href="..\static\css\style.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Result for {{ gate }} Gate</h1>
+        <h1>Result for {{ gate | capitalize }} Gate</h1>
         <div class="result-box">
             <p class="result-text">Prediction: {{ prediction }}</p>
             <p class="result-text">Rounded Prediction: {{ rounded_prediction }}</p>

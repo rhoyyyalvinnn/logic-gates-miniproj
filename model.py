@@ -1,49 +1,60 @@
-from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 import numpy as np
 import pickle
 
-# Input data for all gates (each row is [bit1, bit2])
-X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+# Input data for all gates
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
 
-# Output data for AND, OR, XOR, NOR, NAND, XNOR gates
-y_and = np.array([0, 0, 0, 1])  # AND gate outputs
-y_or = np.array([0, 1, 1, 1])   # OR gate outputs
-y_xor = np.array([0, 1, 1, 0])  # XOR gate outputs
-y_nor = np.array([1, 0, 0, 0])  # NOR gate outputs
-y_nand = np.array([1, 1, 1, 0]) # NAND gate outputs
-y_xnor = np.array([1, 0, 0, 1]) # XNOR gate outputs
+# Output data for logic gates
+y_and = np.array([0, 0, 0, 1])
+y_or = np.array([0, 1, 1, 1])
+y_nand = np.array([1, 1, 1, 0])
+y_nor = np.array([1, 0, 0, 0])
+y_xor = np.array([0, 1, 1, 0])
+y_xnor = np.array([1, 0, 0, 1])
 
-# Train a Logistic Regression model for each gate
-model_and = LogisticRegression()
-model_and.fit(X, y_and)
+# Function to train MLP model for a gate
+def train_gate_model(X, y):
+    model = MLPClassifier(
+        hidden_layer_sizes=(10, 5),  # two layers
+        activation='relu',
+        solver='adam',
+        max_iter=10000,
+        random_state=42
+    )
+    model.fit(X, y)
+    return model
 
-model_or = LogisticRegression()
-model_or.fit(X, y_or)
 
-model_xor = LogisticRegression()
-model_xor.fit(X, y_xor)
 
-model_nor = LogisticRegression()
-model_nor.fit(X, y_nor)
+# Train models
+model_and = train_gate_model(X, y_and)
+model_or = train_gate_model(X, y_or)
+model_nand = train_gate_model(X, y_nand)
+model_nor = train_gate_model(X, y_nor)
+model_xor = train_gate_model(X, y_xor)
+model_xnor = train_gate_model(X, y_xnor)
 
-model_nand = LogisticRegression()
-model_nand.fit(X, y_nand)
-
-model_xnor = LogisticRegression()
-model_xnor.fit(X, y_xnor)
-
-# Save all models
+# Save all models in a dictionary
 models = {
     "and": model_and,
     "or": model_or,
-    "xor": model_xor,
-    "nor": model_nor,
     "nand": model_nand,
+    "nor": model_nor,
+    "xor": model_xor,
     "xnor": model_xnor
 }
 
-# Save the trained models into a pickle file
-with open('logic_gate_models.pkl', 'wb') as f:
+# Save models to file
+with open("logic_gate_models.pkl", "wb") as f:
     pickle.dump(models, f)
 
-print("Models trained and saved successfully!")
+# Optional: Show predictions for testing
+print("✅ MLPClassifier Predictions:")
+for gate, model in models.items():
+    print(f"{gate.upper()} predictions: {model.predict(X)}")

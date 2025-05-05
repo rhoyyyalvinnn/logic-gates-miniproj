@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="..\static\css\style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Result for {{ gate }} Gate</h1>
+        <div class="result-box">
+            <p class="result-text">Prediction: {{ prediction }}</p>
+            <p class="result-text">Rounded Prediction: {{ rounded_prediction }}</p>
+        </div>
+        <a href="/" class="back-button">Try Again</a>
+    </div>
+</body>
+</html>
